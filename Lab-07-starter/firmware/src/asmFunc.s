@@ -59,7 +59,28 @@ asmFunc:
      * Use it to test the C test code */
     
     /*** STUDENTS: Place your code BELOW this line!!! **************/
-
+    
+    /* load values for A and B into memory, then into registers */
+    LDR r3, =a_value
+    LDR r1, [r3]
+    LDR r4, =b_value
+    LDR r2, [r4]
+    
+    /* load hex values which will help with logical operators */
+    LDR r9, =0xFFFF0000
+    LDR r10, =0x0000FFFF
+    
+    MOV r1, r0                 /* copy 32 bit value to register rB, which will help compute 32 bit version of A */
+    AND r5, r1, r9             /* use logical operator to keep the upper 16 bits in A */
+    ASRS r1, r5, 16            /* shift value of rA to the LSB while including sign extension */
+    
+    MOV r2, r0                 /* copy 32 bit value to register rB, so that 32 bit version of B can be calculated */
+    AND r6, r2, r10            /* use logical operator to keep the lower 16 bits in B */
+    ROR r6, r6, 16             /* rotate the value so that rB is at the MSB */
+    ASRS r2, r6, 16            /* shift value of rB to the LSB while including sign extension */
+    
+    STR r1, [r3]               /* store 16 bit version of A into memory */
+    STR r2, [r4]               /* store 16 bit version of B into memory */
     
     /*** STUDENTS: Place your code ABOVE this line!!! **************/
 
